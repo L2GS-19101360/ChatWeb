@@ -28,8 +28,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className='introBox'>
-          <img src={webname} alt="" className='webname' /><br/>
+        <div id='introBox'>
+          <img src={webname} alt="" id='webnameApp' /><br/>
           <button type="button" className="btn btn-secondary" style={{marginRight: '10px'}} onClick={this.tologinPage}>Login Account</button>
           <button type="button" className="btn btn-primary" style={{marginLeft: '10px'}} onClick={this.toregisterPage}>Register Account</button>
         </div>

@@ -1,0 +1,51 @@
+#loginBox {
+    background-color: white;
+    height: 63%;
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+}
+
+.leftLogin {
+    width: 50%;
+    background-color: lightgray;
+    text-align: center;
+    height: 100%;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rightLogin {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+}
+.rightLogin form{
+    width: 100%;
+}
+
+#webnameLogin {
+    height: 50%;
+    border-radius: 10%;
+    width: auto;
+}
+
+/* .showPassword{
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.bi-eye-fill, .bi-eye-slash-fill{
+    cursor: pointer;
+}
