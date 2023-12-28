@@ -1,0 +1,33 @@
+#registerBox{
+    background-color: white;
+    height: 63%;
+    width: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+}
+.leftRegister{
+    width: 50%;
+    background-color: lightgray;
+    text-align: center;
+    height: 100%;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rightRegister{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+}
+.infoName{
+    display: inline-flex;
+    
+}
