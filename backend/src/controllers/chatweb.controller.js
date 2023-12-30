@@ -2,7 +2,7 @@
 
 const Users = require('../models/chatweb.model');
 
-exports.create = function (req, res) {
+exports.createUser = function (req, res) {
     const new_user = new Users(req.body);
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
         res.status(400).send({
@@ -10,7 +10,7 @@ exports.create = function (req, res) {
             message: "Please Provide All Required Field!"
         });
     } else {
-        Users.create(new_user, function (err, user) {
+        Users.createUser(new_user, function (err, user) {
             if (err) {
                 res.send(err);
             } else {
@@ -23,4 +23,17 @@ exports.create = function (req, res) {
             }
         });
     }
+};
+
+exports.loginByUsername = function(req, res){
+    Users.loginByUsername(req.params.username, function(err, user){
+        if (err) {
+            res.send(err);
+        } else {
+            res.json({
+                status: 200,
+                data: user
+            });
+        }
+    });
 };

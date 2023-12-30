@@ -14,7 +14,7 @@ var Users = function (user) {
     this.updated = new Date();
 };
 
-Users.create = function (newUser, result) {
+Users.createUser = function (newUser, result) {
     dbConn.query("INSERT INTO users SET ?", newUser, function (err, res) {
         if (err) {
             console.log("Error: ", err);
@@ -22,6 +22,19 @@ Users.create = function (newUser, result) {
         } else {
             console.log(res.insertId);
             result(null, res.insertId);
+        }
+    });
+};
+
+Users.loginByUsername = function (username, result) {
+    dbConn.query("SELECT * FROM users WHERE username = ?", username, function (err, res) {
+        if (err) {
+            console.log("Error: ", err);
+            result(err, null);
+        } else {
+            // Assuming res is an array of rows, you might want to handle the result appropriately
+            console.log(res);
+            result(null, res);
         }
     });
 };

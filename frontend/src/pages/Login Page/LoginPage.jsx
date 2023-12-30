@@ -44,7 +44,7 @@ class LoginPage extends Component {
                     <div className='rightLogin'>
                         <h1 style={{marginBottom: '25px'}}>Login Page</h1>
                         <form action="" method='POST'>
-                            <input className="form-control" type="email" placeholder="Enter Email" aria-label="default input example" style={{marginBottom: '25px'}}/>
+                            <input className="form-control" type="email" placeholder="Enter Email or Username" aria-label="default input example" style={{marginBottom: '25px'}}/>
                             <div className='input-group'>
                                 <input className='form-control' type={inputType} placeholder='Enter Password' aria-label='Password' style={{marginBottom: '25px'}}/>
                                 <span className='input-group-text' style={{marginBottom: '25px'}}>
