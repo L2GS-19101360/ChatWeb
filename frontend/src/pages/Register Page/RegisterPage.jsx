@@ -5,6 +5,8 @@ import './RegisterPage.css'
 import webname from '../../assets/webname.jpg'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom'
+import axios from 'axios';
+import bcrypt from 'bcryptjs';
 
 class RegisterPage extends Component {
     constructor() {
@@ -39,7 +41,7 @@ class RegisterPage extends Component {
         this.props.history.push('/')
     }
 
-    handleRegisterAccount = (event) => {
+    handleRegisterAccount = async (event) => {
         event.preventDefault()
 
         console.log(this.state.newFirstName);
@@ -50,6 +52,36 @@ class RegisterPage extends Component {
         console.log(this.state.newPassword);
         console.log(this.state.tempImage);
 
+        const saltRounds = 10; // You can adjust the number of salt rounds as needed
+        const hashedPassword = await bcrypt.hash(this.state.newPassword, saltRounds);
+
+        const user = {
+            lastname: this.state.newLastName,
+            firstname: this.state.newFirstName,
+            contactnumber: this.state.newContactNumber,
+            username: this.state.newUsername,
+            email: this.state.newEmail,
+            password: hashedPassword,
+            userimage: this.state.tempImage
+        }
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://localhost:8081/backend/users/create-user", true);
+
+        xhttp.setRequestHeader("Content-Type", "application/json");
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    console.log("User created successfully");
+                } else {
+                    console.error("Error creating user:", this.responseText);
+                }
+            }
+        };
+
+        // Convert user object to JSON and send it in the request body
+        xhttp.send(JSON.stringify(user));
     }
 
     render() {
@@ -70,16 +102,16 @@ class RegisterPage extends Component {
                             <div className='infoName' style={{ marginBottom: '10px' }}>
                                 <input className="form-control" type="text" placeholder="Enter First Name" aria-label="default input example" style={{ marginRight: '5px' }} value={this.state.newFirstName} onChange={(e) => this.setState({ newFirstName: e.target.value })} />
 
-                                <input className="form-control" type="text" placeholder="Enter Last Name" aria-label="default input example" style={{ marginLeft: '5px' }} value={this.state.newLastName} onChange={(e) => this.setState({newLastName: e.target.value})}/>
+                                <input className="form-control" type="text" placeholder="Enter Last Name" aria-label="default input example" style={{ marginLeft: '5px' }} value={this.state.newLastName} onChange={(e) => this.setState({ newLastName: e.target.value })} />
                             </div>
-                            <input className="form-control" type="tel" placeholder="Enter Contact Number" aria-label="default input example" style={{ marginBottom: '10px' }} value={this.state.newContactNumber} onChange={(e) => this.setState({newContactNumber: e.target.value})}/>
+                            <input className="form-control" type="tel" placeholder="Enter Contact Number" aria-label="default input example" style={{ marginBottom: '10px' }} value={this.state.newContactNumber} onChange={(e) => this.setState({ newContactNumber: e.target.value })} />
 
-                            <input className="form-control" type="text" placeholder="Enter Username" aria-label="default input example" style={{ marginBottom: '10px' }} value={this.state.newUsername} onChange={(e) => this.setState({newUsername: e.target.value})}/>
+                            <input className="form-control" type="text" placeholder="Enter Username" aria-label="default input example" style={{ marginBottom: '10px' }} value={this.state.newUsername} onChange={(e) => this.setState({ newUsername: e.target.value })} />
 
-                            <input className="form-control" type="email" placeholder="Enter Email" aria-label="default input example" style={{ marginBottom: '10px' }} value={this.state.newEmail} onChange={(e) => this.setState({newEmail: e.target.value})}/>
+                            <input className="form-control" type="email" placeholder="Enter Email" aria-label="default input example" style={{ marginBottom: '10px' }} value={this.state.newEmail} onChange={(e) => this.setState({ newEmail: e.target.value })} />
 
                             <div className='input-group'>
-                                <input className='form-control' type={inputType} placeholder='Enter Password' aria-label='Password' style={{ marginBottom: '20px' }} value={this.state.newPassword} onChange={(e) => this.setState({newPassword: e.target.value})}/>
+                                <input className='form-control' type={inputType} placeholder='Enter Password' aria-label='Password' style={{ marginBottom: '20px' }} value={this.state.newPassword} onChange={(e) => this.setState({ newPassword: e.target.value })} />
                                 <span className='input-group-text' style={{ marginBottom: '20px' }}>
                                     <i className={eyeIcon} onClick={this.togglePassword}></i>
                                 </span>
@@ -89,7 +121,7 @@ class RegisterPage extends Component {
 
                         </form>
 
-                        <p style={{marginTop: '15px'}}>Already Have an Account? <Link to='/LoginPage'>Login Account</Link> </p>
+                        <p style={{ marginTop: '15px' }}>Already Have an Account? <Link to='/LoginPage'>Login Account</Link> </p>
                     </div>
                 </div>
             </div>
