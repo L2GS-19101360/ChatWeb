@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginPage from './pages/Login Page/LoginPage.jsx';
 import RegisterPage from './pages/Register Page/RegisterPage.jsx';
+import HomePage from './pages/Home Page/HomePage.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <div>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route exact path='/' component={App} />
       <Route path='/LoginPage' component={LoginPage} />
       <Route path='/RegisterPage' component={RegisterPage} />
+      <Route path='/HomePage' component={HomePage} />
     </Router>
   </div>
 )
