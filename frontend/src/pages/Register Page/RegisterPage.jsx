@@ -6,7 +6,6 @@ import webname from '../../assets/webname.jpg'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
 
 class RegisterPage extends Component {
     constructor() {
@@ -52,16 +51,13 @@ class RegisterPage extends Component {
         console.log(this.state.newPassword);
         console.log(this.state.tempImage);
 
-        const saltRounds = 10; // You can adjust the number of salt rounds as needed
-        const hashedPassword = await bcrypt.hash(this.state.newPassword, saltRounds);
-
         const user = {
             lastname: this.state.newLastName,
             firstname: this.state.newFirstName,
             contactnumber: this.state.newContactNumber,
             username: this.state.newUsername,
             email: this.state.newEmail,
-            password: hashedPassword,
+            password: this.state.newPassword,
             userimage: this.state.tempImage
         }
 
