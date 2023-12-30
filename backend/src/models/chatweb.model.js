@@ -39,4 +39,17 @@ Users.loginByUsername = function (username, result) {
     });
 };
 
+Users.loginByEmail = function (email, result) {
+    dbConn.query("SELECT * FROM users WHERE email = ?", email, function (err, res) {
+        if (err) {
+            console.log("Error: ", err);
+            result(err, null);
+        } else {
+            // Assuming res is an array of rows, you might want to handle the result appropriately
+            console.log(res);
+            result(null, res);
+        }
+    });
+};
+
 module.exports = Users;

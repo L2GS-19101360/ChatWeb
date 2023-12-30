@@ -37,3 +37,16 @@ exports.loginByUsername = function(req, res){
         }
     });
 };
+
+exports.loginByEmail = function(req, res){
+    Users.loginByEmail(req.params.email, function(err, user){
+        if (err) {
+            res.send(err);
+        } else {
+            res.json({
+                status: 200,
+                data: user
+            });
+        }
+    });
+};
