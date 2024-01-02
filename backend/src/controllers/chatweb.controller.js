@@ -26,11 +26,12 @@ exports.createUser = function (req, res) {
 };
 
 exports.loginByUsername = function(req, res){
-    Users.loginByUsername(req.params.username, function(err, user){
+    const username = req.body.username; // Assuming you send 'username' in the request body
+    Users.loginByUsername(username, function(err, user) {
         if (err) {
-            res.send(err);
+            res.status(500).json({ error: err.message });
         } else {
-            res.json({
+            res.status(200).json({
                 status: 200,
                 data: user
             });
@@ -39,11 +40,12 @@ exports.loginByUsername = function(req, res){
 };
 
 exports.loginByEmail = function(req, res){
-    Users.loginByEmail(req.params.email, function(err, user){
+    const email = req.body.email; // Assuming you send 'email' in the request body
+    Users.loginByEmail(email, function(err, user) {
         if (err) {
-            res.send(err);
+            res.status(500).json({ error: err.message });
         } else {
-            res.json({
+            res.status(200).json({
                 status: 200,
                 data: user
             });

@@ -30,7 +30,7 @@ class LoginPage extends Component {
             showPassword: !prevState.showPassword
         }));
     }
-    toApp(){
+    toApp() {
         this.props.history.push('/');
     }
 
@@ -40,7 +40,35 @@ class LoginPage extends Component {
         console.log(this.state.enterUserEmail);
         console.log(this.state.enterPassword);
 
+        const isEmail = this.state.enterUserEmail.includes("@gmail.com");
 
+        const data = isEmail ? { email: this.state.enterUserEmail, password: this.state.enterPassword } : { username: this.state.enterUserEmail, password: this.state.enterPassword };
+
+        const endpoint = isEmail
+            ? "http://localhost:8081/backend/users/login-email/"
+            : "http://localhost:8081/backend/users/login-username/";
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", endpoint, true);  // Change to POST
+        xhttp.setRequestHeader("Content-Type", "application/json");
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                if (this.status === 200) {
+                    const responseData = JSON.parse(this.responseText);
+                    console.log("User Login successfully");
+                    console.log("User data:", responseData.data);
+
+                    // Handle the successful response here
+                } else {
+                    console.error("Error creating user:", this.responseText);
+                    // Handle the error response here
+                }
+            }
+        };
+
+        // Send the request
+        xhttp.send(JSON.stringify(data));
     }
 
     render() {
@@ -51,19 +79,19 @@ class LoginPage extends Component {
             <div>
                 <div id='loginBox'>
                     <div className='leftLogin'>
-                        <img src={webname} alt="" id='webnameLogin' onClick={this.toApp} style={{cursor: 'pointer'}}/>
+                        <img src={webname} alt="" id='webnameLogin' onClick={this.toApp} style={{ cursor: 'pointer' }} />
                     </div>
                     <div className='rightLogin'>
-                        <h1 style={{marginBottom: '25px'}}>Login Page</h1>
+                        <h1 style={{ marginBottom: '25px' }}>Login Page</h1>
                         <form action="" method='POST'>
-                            <input className="form-control" type="text" placeholder="Enter Email or Username" aria-label="default input example" style={{marginBottom: '25px'}} value={this.state.enterUserEmail} onChange={(e) => this.setState({enterUserEmail: e.target.value})}/>
+                            <input className="form-control" type="text" placeholder="Enter Email or Username" aria-label="default input example" style={{ marginBottom: '25px' }} value={this.state.enterUserEmail} onChange={(e) => this.setState({ enterUserEmail: e.target.value })} />
                             <div className='input-group'>
-                                <input className='form-control' type={inputType} placeholder='Enter Password' aria-label='Password' style={{marginBottom: '25px'}} value={this.state.enterPassword} onChange={(e) => this.setState({enterPassword: e.target.value})}/>
-                                <span className='input-group-text' style={{marginBottom: '25px'}}>
+                                <input className='form-control' type={inputType} placeholder='Enter Password' aria-label='Password' style={{ marginBottom: '25px' }} value={this.state.enterPassword} onChange={(e) => this.setState({ enterPassword: e.target.value })} />
+                                <span className='input-group-text' style={{ marginBottom: '25px' }}>
                                     <i className={eyeIcon} onClick={this.togglePassword}></i>
                                 </span>
                             </div>
-                            <button type="submit" className="btn btn-primary" style={{marginBottom: '60px'}} onClick={thishandleLoginAccount}>Login Account</button>
+                            <button type="submit" className="btn btn-primary" style={{ marginBottom: '60px' }} onClick={this.handleLoginAccount}>Login Account</button>
                         </form>
                         <p>Don't Have an Account? <Link to='/RegisterPage'>Register an Account</Link> </p>
                     </div>
