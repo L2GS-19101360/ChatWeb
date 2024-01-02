@@ -2,27 +2,33 @@
 
 const Users = require('../models/chatweb.model');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10; 
+
 exports.createUser = function (req, res) {
-    const new_user = new Users(req.body);
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        res.status(400).send({
-            error: true,
-            message: "Please Provide All Required Field!"
-        });
-    } else {
-        Users.createUser(new_user, function (err, user) {
+    const { password, ...otherUserData } = req.body;
+
+    // Hash the password before storing it
+    bcrypt.hash(password, saltRounds, function (err, hashedPassword) {
+        if (err) {
+            return res.status(500).json({ error: true, message: 'Error hashing password' });
+        }
+
+        const newUser = { ...otherUserData, password: hashedPassword };
+
+        Users.createUser(newUser, function (err, user) {
             if (err) {
-                res.send(err);
+                res.status(500).json({ error: true, message: 'Error creating user', details: err });
             } else {
                 res.json({
                     error: false,
                     status: 200,
-                    message: "User Created Successfully!",
+                    message: 'User Created Successfully!',
                     data: user
                 });
             }
         });
-    }
+    });
 };
 
 exports.loginByUsername = function(req, res){
