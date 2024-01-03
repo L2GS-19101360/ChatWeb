@@ -57,7 +57,7 @@ class LoginPage extends Component {
                 if (this.status === 200) {
                     const responseData = JSON.parse(this.responseText);
                     console.log("User Login successfully");
-                    console.log("User data:", responseData.data);
+                    console.log("User data:", responseData.data[0].password);
 
                     // Handle the successful response here
                 } else {
