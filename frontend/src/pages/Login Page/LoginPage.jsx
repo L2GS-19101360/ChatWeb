@@ -67,11 +67,23 @@ class LoginPage extends Component {
 
                     if (passwordMatch) {
                         console.log("Password Matched");
+
+                        const userData = {
+                            firstname: responseData.data[0].firstname,
+                            lastname: responseData.data[0].lastname,
+                            userimage: responseData.data[0].userimage
+                        };
+
+                        const userDataJSON = JSON.stringify(userData);
+
+                        sessionStorage.setItem('userData', userDataJSON);
+
+                        window.location.href = "/HomePage";
                     } else {
                         console.log("Password Mismatched");
                     }
                 } else {
-                    console.error("Error creating user:", xhttp.responseText);
+                    console.error("Error logging user:", xhttp.responseText);
                     // Handle the error response here
                 }
             }
