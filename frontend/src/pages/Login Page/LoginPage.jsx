@@ -5,6 +5,7 @@ import './LoginPage.css'
 import webname from '../../assets/webname.jpg'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link } from 'react-router-dom'
+import bcrypt from 'bcryptjs';
 
 class LoginPage extends Component {
     constructor() {
@@ -42,7 +43,9 @@ class LoginPage extends Component {
 
         const isEmail = this.state.enterUserEmail.includes("@gmail.com");
 
-        const data = isEmail ? { email: this.state.enterUserEmail, password: this.state.enterPassword } : { username: this.state.enterUserEmail, password: this.state.enterPassword };
+        const data = isEmail
+            ? { email: this.state.enterUserEmail, password: this.state.enterPassword }
+            : { username: this.state.enterUserEmail, password: this.state.enterPassword };
 
         const endpoint = isEmail
             ? "http://localhost:8081/backend/users/login-email/"
@@ -52,16 +55,23 @@ class LoginPage extends Component {
         xhttp.open("POST", endpoint, true);  // Change to POST
         xhttp.setRequestHeader("Content-Type", "application/json");
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                if (this.status === 200) {
-                    const responseData = JSON.parse(this.responseText);
+        xhttp.onreadystatechange = async () => {
+            if (xhttp.readyState === 4) {
+                if (xhttp.status === 200) {
+                    const responseData = JSON.parse(xhttp.responseText);
                     console.log("User Login successfully");
-                    console.log("User data:", responseData.data[0].password);
+                    console.log("User data:", responseData.data);
 
-                    // Handle the successful response here
+                    // Compare the entered password with the hashed password from the server
+                    const passwordMatch = await bcrypt.compare(this.state.enterPassword, responseData.data[0].password);
+
+                    if (passwordMatch) {
+                        console.log("Password Matched");
+                    } else {
+                        console.log("Password Mismatched");
+                    }
                 } else {
-                    console.error("Error creating user:", this.responseText);
+                    console.error("Error creating user:", xhttp.responseText);
                     // Handle the error response here
                 }
             }
